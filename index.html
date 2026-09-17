@@ -1,83 +1,146 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leitor de Telas Mobile - Acessibilidade</title>
-  
-  <!-- Biblioteca de OCR (Reconhecimento de Texto Real) -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Leitor de Textos em Voz Alta</title>
 
-  <style>
-    body {
-      background-color: #F4F6F8;
-      color: #1A1A1A;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
+<!-- Biblioteca de OCR -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
 
-    h1 {
-      font-size: 1.6rem;
-      color: #0A2540;
-      margin-bottom: 25px;
-    }
+<style>
+  :root{
+    --azul:#0056B3;
+    --azul-escuro:#003D82;
+    --vermelho:#B30000;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    background:#F4F6F8;
+    color:#111;
+    font-family:Arial, Helvetica, sans-serif;
+    margin:0;
+    padding:16px 16px 48px;
+    text-align:center;
+  }
+  h1{ font-size:1.5rem; color:#0A2540; margin:0 0 16px; }
 
-    .btn {
-      background-color: #0056B3;
-      color: #FFFFFF;
-      font-size: 1.2rem;
-      font-weight: bold;
-      padding: 16px 20px;
-      border: none;
-      border-radius: 8px;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 12px;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+  .btn{
+    display:block;
+    background:var(--azul);
+    color:#fff;
+    font-size:1.25rem;
+    font-weight:bold;
+    padding:18px 20px;
+    border:none;
+    border-radius:10px;
+    width:100%;
+    max-width:440px;
+    margin:0 auto 12px;
+    cursor:pointer;
+    box-shadow:0 4px 6px rgba(0,0,0,.15);
+  }
+  .btn:active{ background:var(--azul-escuro); }
+  .btn:disabled{ background:#9AA5B1; box-shadow:none; }
+  .btn.secundario{ background:#444; }
+  .btn.parar{ background:var(--vermelho); }
 
-    .btn:active {
-      background-color: #003D82;
-    }
+  video{
+    width:100%;
+    max-width:440px;
+    border:3px solid var(--azul);
+    border-radius:10px;
+    margin:8px auto;
+    display:none;
+    background:#000;
+  }
 
-    video {
-      width: 100%;
-      max-width: 400px;
-      border: 3px solid #0056B3;
-      border-radius: 8px;
-      margin-top: 10px;
-      display: none;
-      background-color: #000000;
-    }
+  #status{
+    font-size:1.25rem;
+    line-height:1.5;
+    margin:16px auto 0;
+    max-width:440px;
+    padding:16px;
+    border:1px solid #CCC;
+    border-left:6px solid var(--azul);
+    background:#fff;
+    border-radius:8px;
+    text-align:left;
+    min-height:96px;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+  }
 
-    #texto-lido {
-      font-size: 1.1rem;
-      margin: 20px auto 0 auto;
-      max-width: 400px;
-      padding: 15px;
-      border: 1px solid #CCCCCC;
-      border-left: 5px solid #0056B3;
-      background-color: #FFFFFF;
-      border-radius: 6px;
-      text-align: left;
-    }
-  </style>
+  .aviso{
+    background:#FFEBEE;
+    border-left:6px solid var(--vermelho);
+    padding:14px;
+    border-radius:8px;
+    max-width:440px;
+    margin:0 auto 16px;
+    text-align:left;
+    font-size:1rem;
+    line-height:1.4;
+  }
+
+  .linha{
+    display:flex;
+    gap:10px;
+    max-width:440px;
+    margin:0 auto 12px;
+  }
+  .linha .btn{ flex:1; margin:0; font-size:1.05rem; padding:14px 8px; }
+
+  label.check{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    max-width:440px;
+    margin:0 auto 12px;
+    font-size:1.1rem;
+    font-weight:bold;
+    color:#0A2540;
+    background:#fff;
+    border:1px solid #CCC;
+    border-radius:10px;
+    padding:14px;
+    text-align:left;
+    cursor:pointer;
+  }
+  label.check input{ width:26px; height:26px; flex:0 0 auto; }
+</style>
 </head>
 <body>
 
-  <h1>Leitor de Avisos da Clínica</h1>
+  <h1>Leitor de Textos em Voz Alta</h1>
 
-  <button class="btn" id="btn-camera" onclick="iniciarCamera()">1. ABRIR CÂMERA</button>
-  <button class="btn" id="btn-ler" onclick="lerAvisoReal()" style="display:none;">2. LER TEXTO EM ÁUDIO</button>
+  <div id="aviso-seguranca" class="aviso" style="display:none;">
+    ⚠️ <strong>A câmera não vai funcionar assim.</strong><br>
+    O navegador só libera a câmera em páginas <strong>HTTPS</strong>.
+    Publique a página no GitHub Pages (veja o passo a passo) ou em outro serviço HTTPS.
+  </div>
 
-  <video id="video" autoplay playsinline></video>
+  <video id="video" autoplay playsinline muted></video>
 
-  <div id="texto-lido">
-    <strong style="color: #0056B3;">Resultado da Leitura:</strong><br>
-    <span id="conteudo-texto">Aponte a câmera para o texto da placa e clique no botão de ler.</span>
+  <button class="btn" id="btn-camera">1. ABRIR CÂMERA</button>
+  <button class="btn" id="btn-ler" style="display:none;">2. LER EM VOZ ALTA</button>
+
+  <div class="linha" id="linha-extra" style="display:none;">
+    <button class="btn secundario" id="btn-repetir">🔊 Repetir</button>
+    <button class="btn parar" id="btn-parar-audio">⏹ Parar voz</button>
+  </div>
+
+  <button class="btn secundario" id="btn-lanterna" style="display:none;">🔦 Ligar lanterna</button>
+
+  <label class="check" id="label-continuo" style="display:none;">
+    <input type="checkbox" id="chk-continuo">
+    Leitura contínua (lê sozinho a cada poucos segundos)
+  </label>
+
+  <button class="btn secundario" id="btn-fechar" style="display:none;">FECHAR CÂMERA</button>
+
+  <div id="status" role="status" aria-live="polite">
+    Toque em “ABRIR CÂMERA” para começar.
   </div>
 
   <script src="script.js"></script>

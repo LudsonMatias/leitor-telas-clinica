@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leitor de Telas Mobile - Clínica Acessível</title>
+  <style>
+    /* Estilo de Alto Contraste (Acessibilidade para Baixa Visão) */
+    body {
+      background-color: #000000;
+      color: #FFFF00; /* Amarelo no preto para alto contraste */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    /* Botões Grandes para Acessibilidade */
+    .btn {
+      background-color: #FFFF00;
+      color: #000000;
+      font-size: 1.4rem;
+      font-weight: bold;
+      padding: 18px 24px;
+      border: none;
+      border-radius: 12px;
+      width: 100%;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+
+    video {
+      width: 100%;
+      max-width: 400px;
+      border: 3px solid #FFFF00;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    #texto-lido {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px dashed #FFFF00;
+      background-color: #111111;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Leitor de Avisos - Clínica</h1>
+
+  <button class="btn" id="btn-camera" onclick="iniciarCamera()">1. ABRIR CÂMERA</button>
+  <button class="btn" id="btn-ler" onclick="lerAviso()" style="display:none;">2. LER TEXTO EM ÁUDIO</button>
+
+  <video id="video" autoplay playsinline></video>
+
+  <div id="texto-lido">
+    <strong>Resultado:</strong><br>
+    <span id="conteudo-texto">Aponte a câmera para a placa ou aviso da clínica e clique em ler.</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

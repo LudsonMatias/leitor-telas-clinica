@@ -4,11 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leitor de Telas Mobile - Acessibilidade</title>
+  
+  <!-- Biblioteca de OCR (Reconhecimento de Texto Real) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
   <style>
-    /* Estilo limpo e acessível (Fundo cinza gelo e texto preto) */
     body {
-      background-color: #F4F6F8; /* Cinza gelo */
-      color: #1A1A1A; /* Preto suave para alta leitura */
+      background-color: #F4F6F8;
+      color: #1A1A1A;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
@@ -21,9 +24,8 @@
       margin-bottom: 25px;
     }
 
-    /* Barras e Botões em Azul */
     .btn {
-      background-color: #0056B3; /* Azul marcante */
+      background-color: #0056B3;
       color: #FFFFFF;
       font-size: 1.2rem;
       font-weight: bold;
@@ -51,14 +53,13 @@
       background-color: #000000;
     }
 
-    /* Caixa de texto lido */
     #texto-lido {
       font-size: 1.1rem;
       margin: 20px auto 0 auto;
       max-width: 400px;
       padding: 15px;
       border: 1px solid #CCCCCC;
-      border-left: 5px solid #0056B3; /* Barra lateral azul */
+      border-left: 5px solid #0056B3;
       background-color: #FFFFFF;
       border-radius: 6px;
       text-align: left;
@@ -70,13 +71,13 @@
   <h1>Leitor de Avisos da Clínica</h1>
 
   <button class="btn" id="btn-camera" onclick="iniciarCamera()">1. ABRIR CÂMERA</button>
-  <button class="btn" id="btn-ler" onclick="lerAviso()" style="display:none;">2. LER TEXTO EM ÁUDIO</button>
+  <button class="btn" id="btn-ler" onclick="lerAvisoReal()" style="display:none;">2. LER TEXTO EM ÁUDIO</button>
 
   <video id="video" autoplay playsinline></video>
 
   <div id="texto-lido">
     <strong style="color: #0056B3;">Resultado da Leitura:</strong><br>
-    <span id="conteudo-texto">Aponte a câmera para a placa ou aviso da clínica e clique em ler.</span>
+    <span id="conteudo-texto">Aponte a câmera para o texto da placa e clique no botão de ler.</span>
   </div>
 
   <script src="script.js"></script>

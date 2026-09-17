@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leitor de Telas Mobile - Clínica Acessível</title>
+  <title>Leitor de Telas Mobile - Acessibilidade</title>
   <style>
-    /* Estilo de Alto Contraste (Acessibilidade para Baixa Visão) */
+    /* Estilo limpo e acessível (Fundo cinza gelo e texto preto) */
     body {
-      background-color: #000000;
-      color: #FFFF00; /* Amarelo no preto para alto contraste */
+      background-color: #F4F6F8; /* Cinza gelo */
+      color: #1A1A1A; /* Preto suave para alta leitura */
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
@@ -16,45 +16,58 @@
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      font-size: 1.6rem;
+      color: #0A2540;
+      margin-bottom: 25px;
     }
 
-    /* Botões Grandes para Acessibilidade */
+    /* Barras e Botões em Azul */
     .btn {
-      background-color: #FFFF00;
-      color: #000000;
-      font-size: 1.4rem;
+      background-color: #0056B3; /* Azul marcante */
+      color: #FFFFFF;
+      font-size: 1.2rem;
       font-weight: bold;
-      padding: 18px 24px;
+      padding: 16px 20px;
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       width: 100%;
-      margin-bottom: 15px;
+      max-width: 400px;
+      margin-bottom: 12px;
       cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:active {
+      background-color: #003D82;
     }
 
     video {
       width: 100%;
       max-width: 400px;
-      border: 3px solid #FFFF00;
+      border: 3px solid #0056B3;
       border-radius: 8px;
       margin-top: 10px;
       display: none;
+      background-color: #000000;
     }
 
+    /* Caixa de texto lido */
     #texto-lido {
-      font-size: 1.3rem;
-      margin-top: 20px;
+      font-size: 1.1rem;
+      margin: 20px auto 0 auto;
+      max-width: 400px;
       padding: 15px;
-      border: 1px dashed #FFFF00;
-      background-color: #111111;
+      border: 1px solid #CCCCCC;
+      border-left: 5px solid #0056B3; /* Barra lateral azul */
+      background-color: #FFFFFF;
+      border-radius: 6px;
+      text-align: left;
     }
   </style>
 </head>
 <body>
 
-  <h1>Leitor de Avisos - Clínica</h1>
+  <h1>Leitor de Avisos da Clínica</h1>
 
   <button class="btn" id="btn-camera" onclick="iniciarCamera()">1. ABRIR CÂMERA</button>
   <button class="btn" id="btn-ler" onclick="lerAviso()" style="display:none;">2. LER TEXTO EM ÁUDIO</button>
@@ -62,7 +75,7 @@
   <video id="video" autoplay playsinline></video>
 
   <div id="texto-lido">
-    <strong>Resultado:</strong><br>
+    <strong style="color: #0056B3;">Resultado da Leitura:</strong><br>
     <span id="conteudo-texto">Aponte a câmera para a placa ou aviso da clínica e clique em ler.</span>
   </div>
 
